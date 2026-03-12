@@ -621,6 +621,78 @@
       .btn-next { flex: none; }
       .header { padding: 12px 16px; }
     }
+
+    /* ─── Exam Mode ─────────────────────────────────────────────────────────── */
+    .exam-start {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 48px 32px;
+      text-align: center;
+    }
+    .exam-start-icon { font-size: 52px; margin-bottom: 16px; }
+    .exam-start h2 { font-size: 22px; font-weight: 700; color: var(--text-bright); margin-bottom: 8px; }
+    .exam-start p  { font-size: 14px; color: var(--text-dim); margin-bottom: 28px; line-height: 1.6; }
+    .exam-start-info { display: flex; justify-content: center; gap: 20px; margin-bottom: 28px; flex-wrap: wrap; }
+    .exam-info-chip { background: var(--bg-panel); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 18px; font-size: 13px; color: var(--text-dim); }
+    .exam-info-chip strong { display: block; font-size: 20px; font-weight: 700; color: var(--primary-bright); margin-bottom: 2px; }
+    .btn-start-exam { background: var(--primary); color: #fff; border: none; border-radius: var(--radius); padding: 15px 40px; font-size: 16px; font-weight: 700; cursor: pointer; font-family: inherit; transition: background 0.15s; }
+    .btn-start-exam:hover { background: var(--primary-dim); }
+
+    .exam-header { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px 20px; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
+    .exam-header .exam-title { font-size: 15px; font-weight: 700; color: var(--text-bright); }
+    .exam-header .exam-sub { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+    .exam-progress-wrap { margin-left: auto; text-align: right; }
+    .exam-progress-num { font-size: 13px; font-weight: 700; color: var(--primary-bright); font-family: 'JetBrains Mono', monospace; }
+    .exam-progress-bar { height: 4px; background: var(--bg-input); border-radius: 4px; margin-top: 6px; width: 110px; overflow: hidden; }
+    .exam-progress-fill { height: 100%; background: var(--primary); border-radius: 4px; transition: width 0.3s ease; }
+
+    .exam-q-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 22px; margin-bottom: 12px; }
+    .exam-q-card.answered { border-color: var(--border-primary); }
+    .exam-q-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+    .exam-q-num { font-size: 11px; font-weight: 700; font-family: 'JetBrains Mono', monospace; color: var(--primary-bright); background: var(--primary-deep); padding: 3px 9px; border-radius: 20px; }
+    .exam-q-type { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; }
+    .exam-q-cat { margin-left: auto; font-size: 11px; color: var(--text-dim); }
+    .exam-q-text { font-size: 15px; font-weight: 600; color: var(--text-bright); line-height: 1.55; margin-bottom: 16px; }
+
+    .exam-options { display: flex; flex-direction: column; gap: 8px; }
+    .exam-option { display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; transition: all 0.15s; background: var(--bg-panel); user-select: none; }
+    .exam-option:hover { border-color: var(--primary); background: var(--bg-hover); }
+    .exam-option.selected { border-color: var(--primary); background: var(--primary-deep); }
+    .exam-option.selected .opt-key { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .exam-option.correct-answer { border-color: var(--success); background: rgba(16,185,129,0.1); }
+    .exam-option.wrong-answer { border-color: var(--danger); background: rgba(239,68,68,0.1); }
+    .exam-option.correct-answer .opt-key { background: var(--success); color: #fff; border-color: var(--success); }
+    .exam-option.wrong-answer .opt-key { background: var(--danger); color: #fff; border-color: var(--danger); }
+    .opt-key { width: 28px; height: 28px; min-width: 28px; border: 1.5px solid var(--border-primary); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: var(--primary-bright); font-family: 'JetBrains Mono', monospace; transition: all 0.15s; }
+    .opt-text { font-size: 14px; color: var(--text); line-height: 1.5; padding-top: 3px; }
+    .exam-tf { display: flex; gap: 10px; }
+    .exam-tf .exam-option { flex: 1; justify-content: center; align-items: center; font-size: 15px; font-weight: 600; }
+
+    .exam-explanation { margin-top: 14px; padding: 12px 14px; background: var(--bg-input); border-radius: var(--radius-sm); border-left: 3px solid var(--primary); font-size: 13px; color: var(--text-dim); line-height: 1.6; display: none; }
+    .exam-explanation.show { display: block; }
+    .exam-explanation strong { color: var(--text-bright); }
+
+    .exam-submit-bar { position: sticky; bottom: calc(16px + var(--safe-bottom, 0px)); z-index: 50; margin-top: 20px; }
+    .btn-submit-exam { width: 100%; padding: 16px; background: var(--accent); color: #0a0f1e; border: none; border-radius: var(--radius); font-size: 16px; font-weight: 700; cursor: pointer; font-family: inherit; transition: background 0.15s; box-shadow: 0 4px 20px rgba(245,158,11,0.3); }
+    .btn-submit-exam:hover { background: var(--accent-dim); }
+    .btn-submit-exam:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }
+
+    .exam-results { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 36px 28px; text-align: center; margin-bottom: 20px; }
+    .result-score-circle { width: 120px; height: 120px; border-radius: 50%; border: 4px solid var(--primary); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 20px; background: var(--primary-deep); }
+    .result-score-circle .pct { font-size: 32px; font-weight: 700; color: var(--text-bright); line-height: 1; }
+    .result-score-circle .lbl { font-size: 11px; color: var(--primary-bright); text-transform: uppercase; letter-spacing: 0.5px; }
+    .result-grade { font-size: 24px; font-weight: 700; margin-bottom: 6px; }
+    .result-sub { font-size: 14px; color: var(--text-dim); margin-bottom: 24px; }
+    .result-stats { display: flex; justify-content: center; gap: 16px; margin-bottom: 28px; flex-wrap: wrap; }
+    .result-stat { background: var(--bg-panel); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 20px; font-size: 13px; color: var(--text-dim); }
+    .result-stat strong { display: block; font-size: 22px; font-weight: 700; margin-bottom: 2px; }
+    .result-stat.c strong { color: var(--success); }
+    .result-stat.w strong { color: var(--danger); }
+    .btn-review-exam { background: var(--bg-panel); color: var(--text); border: 1px solid var(--border); border-radius: var(--radius); padding: 13px 28px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; margin-right: 10px; transition: all 0.15s; }
+    .btn-review-exam:hover { border-color: var(--primary); color: var(--primary-bright); }
+    .btn-retake-exam { background: var(--primary); color: #fff; border: none; border-radius: var(--radius); padding: 13px 28px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; transition: background 0.15s; }
+    .btn-retake-exam:hover { background: var(--primary-dim); }
   </style>
 </head>
 <body>
@@ -655,8 +727,9 @@
 
     <!-- Tabs -->
     <div class="tabs">
-      <button class="tab active" onclick="switchTab('practice')">🎯 Práctica</button>
-      <button class="tab" onclick="switchTab('history')">📋 Historial</button>
+      <button class="tab active" onclick="switchTab('practice')">🎯 Practice</button>
+      <button class="tab" onclick="switchTab('exam')">📝 Exam</button>
+      <button class="tab" onclick="switchTab('history')">📋 History</button>
       <button class="tab" onclick="switchTab('tips')">💡 Tips</button>
     </div>
 
@@ -711,6 +784,73 @@
         </div>
       </div>
 
+    </div>
+
+    <!-- ── TAB: EXAM ── -->
+    <div class="tab-panel" id="tab-exam">
+      <!-- Start screen -->
+      <div id="exam-start-screen" class="exam-start">
+        <div class="exam-start-icon">📝</div>
+        <h2>Karot Mock Exam</h2>
+        <p>Test your technical knowledge across all topics.<br>30 questions — multiple choice &amp; true/false — timed review at the end.</p>
+        <div class="exam-start-info">
+          <div class="exam-info-chip"><strong>30</strong>Questions</div>
+          <div class="exam-info-chip"><strong>Mix</strong>A/B/C/D + T/F</div>
+          <div class="exam-info-chip"><strong>EN</strong>English</div>
+        </div>
+        <button class="btn-start-exam" onclick="startExam()">Start Exam →</button>
+      </div>
+
+      <!-- Exam in progress -->
+      <div id="exam-in-progress" style="display:none">
+        <div class="exam-header">
+          <div>
+            <div class="exam-title">Karot Mock Exam</div>
+            <div class="exam-sub" id="exam-answered-count">0 / 30 answered</div>
+          </div>
+          <div class="exam-progress-wrap">
+            <div class="exam-progress-num" id="exam-progress-num">0%</div>
+            <div class="exam-progress-bar"><div class="exam-progress-fill" id="exam-progress-fill" style="width:0%"></div></div>
+          </div>
+        </div>
+        <div id="exam-questions-container"></div>
+        <div class="exam-submit-bar">
+          <button class="btn-submit-exam" id="btn-submit-exam" onclick="submitExam()" disabled>
+            Submit Exam (answer all questions first)
+          </button>
+        </div>
+      </div>
+
+      <!-- Results screen -->
+      <div id="exam-results-screen" style="display:none">
+        <div class="exam-results">
+          <div class="result-score-circle">
+            <div class="pct" id="result-pct">0%</div>
+            <div class="lbl">Score</div>
+          </div>
+          <div class="result-grade" id="result-grade">—</div>
+          <div class="result-sub" id="result-sub">—</div>
+          <div class="result-stats">
+            <div class="result-stat c"><strong id="result-correct">0</strong>Correct</div>
+            <div class="result-stat w"><strong id="result-wrong">0</strong>Wrong</div>
+            <div class="result-stat"><strong id="result-skipped">0</strong>Skipped</div>
+          </div>
+          <button class="btn-review-exam" onclick="showReview()">📋 Review Answers</button>
+          <button class="btn-retake-exam" onclick="startExam()">↺ Retake Exam</button>
+        </div>
+      </div>
+
+      <!-- Review screen -->
+      <div id="exam-review-screen" style="display:none">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+          <button onclick="showResults()" style="background:var(--bg-card);border:1px solid var(--border);color:var(--text-dim);padding:8px 16px;border-radius:var(--radius-sm);cursor:pointer;font-family:inherit;font-size:13px">← Back to Results</button>
+          <span style="font-size:14px;font-weight:600;color:var(--text-bright)">Answer Review</span>
+        </div>
+        <div id="exam-review-container"></div>
+        <div style="margin-top:16px;text-align:center">
+          <button class="btn-retake-exam" onclick="startExam()">↺ Retake Exam</button>
+        </div>
+      </div>
     </div>
 
     <!-- ── TAB: HISTORY ── -->
@@ -974,12 +1114,233 @@
     }
 
     function switchTab(tab) {
+      const tabNames = ['practice','exam','history','tips'];
       document.querySelectorAll('.tab').forEach((t, i) => {
-        t.classList.toggle('active', ['practice','history','tips'][i] === tab);
+        t.classList.toggle('active', tabNames[i] === tab);
       });
       document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
       document.getElementById(`tab-${tab}`).classList.add('active');
       if (tab === 'history') renderHistory();
+    }
+
+    // ─── EXAM ────────────────────────────────────────────────────────────────
+
+    const EXAM_BANK = [
+      // Java
+      { cat:'Java', type:'mc', q:'Which Java collection provides O(1) average-case get/put operations?', opts:['LinkedList','ArrayList','HashMap','TreeMap'], correct:2, exp:'HashMap uses hashing for O(1) average get/put. TreeMap is O(log n) (sorted). ArrayList is O(n) for search, O(1) for index access.' },
+      { cat:'Java', type:'tf', q:'In Java, a static method can be overridden by a subclass.', correct:1, exp:'False. Static methods are resolved at compile time (static binding), not runtime. Subclasses can hide (not override) a static method, but polymorphism does not apply.' },
+      { cat:'Java', type:'mc', q:'What does the "volatile" keyword guarantee in Java?', opts:['Atomicity of compound operations','Visibility of changes across threads','Mutual exclusion','Thread-local storage'], correct:1, exp:'volatile guarantees visibility: writes are immediately visible to all threads. It does NOT guarantee atomicity for compound operations like i++ — use AtomicInteger or synchronized for that.' },
+      { cat:'Java', type:'mc', q:'Which design pattern is used by Java\'s InputStream / OutputStream hierarchy?', opts:['Factory','Singleton','Decorator','Observer'], correct:2, exp:'The Decorator pattern. BufferedInputStream wraps FileInputStream adding buffering. This allows stacking behaviors (e.g., GZIPInputStream → BufferedInputStream → FileInputStream) without subclassing.' },
+      { cat:'Java', type:'tf', q:'ArrayList is thread-safe by default in Java.', correct:1, exp:'False. ArrayList is not thread-safe. Use Collections.synchronizedList() or CopyOnWriteArrayList for thread-safe access.' },
+
+      // C# / .NET
+      { cat:'C# / .NET', type:'mc', q:'In C#, what is the difference between "==" and "Equals()" for strings?', opts:['No difference','== compares references; Equals compares content','== compares content; Equals compares references','== is faster, Equals is slower'], correct:1, exp:'For strings, C# overloads == to compare content (value equality), same as Equals(). However, for custom objects, == compares references unless overloaded. Equals() can be overridden for value comparison.' },
+      { cat:'C# / .NET', type:'tf', q:'In .NET, a struct can implement an interface.', correct:0, exp:'True. Structs in C# can implement interfaces. However, boxing occurs when a struct is used as an interface reference, which can affect performance.' },
+      { cat:'C# / .NET', type:'mc', q:'What does "yield return" do in a C# method?', opts:['Exits the method immediately','Returns all items as a list','Creates a lazy iterator using state machine','Throws an exception'], correct:2, exp:'yield return creates a lazy iterator. The compiler generates a state machine that pauses execution at each yield and resumes on next MoveNext() call. This enables memory-efficient enumeration of large sequences.' },
+      { cat:'C# / .NET', type:'mc', q:'Which lifetime should you use for Entity Framework\'s DbContext in ASP.NET Core?', opts:['Singleton','Transient','Scoped','Static'], correct:2, exp:'Scoped. DbContext should live for one HTTP request (one unit of work). Singleton would cause thread-safety issues and stale data. Transient would create a new DbContext per service resolution, losing transaction context.' },
+      { cat:'C# / .NET', type:'tf', q:'Task.Run() is recommended for I/O-bound operations in .NET.', correct:1, exp:'False. Task.Run() wraps work in a ThreadPool thread, best for CPU-bound work. For I/O-bound operations, use async/await with truly asynchronous APIs (HttpClient, FileStream async methods) to avoid blocking threads.' },
+
+      // SQL Server
+      { cat:'SQL Server', type:'mc', q:'What is the default isolation level in SQL Server?', opts:['READ UNCOMMITTED','READ COMMITTED','REPEATABLE READ','SERIALIZABLE'], correct:1, exp:'READ COMMITTED is the default. It prevents dirty reads (reading uncommitted data) but allows non-repeatable reads and phantom reads. Use SNAPSHOT isolation for better read concurrency without blocking.' },
+      { cat:'SQL Server', type:'tf', q:'A clustered index determines the physical order of data rows in a SQL Server table.', correct:0, exp:'True. A clustered index sorts and stores the data rows in the table based on the key values. Only one clustered index per table is allowed. By default, the primary key creates a clustered index.' },
+      { cat:'SQL Server', type:'mc', q:'Which T-SQL clause is used to filter results AFTER a GROUP BY aggregation?', opts:['WHERE','FILTER','HAVING','QUALIFY'], correct:2, exp:'HAVING filters groups after GROUP BY. WHERE filters rows before grouping. Example: SELECT dept, COUNT(*) FROM emp GROUP BY dept HAVING COUNT(*) > 5.' },
+      { cat:'SQL Server', type:'mc', q:'What does SSIS stand for and what is its primary use?', opts:['SQL Server Integration Services — ETL tool','SQL Server Index Service — index optimizer','SQL Server Instance Sync — replication','SQL Server Intelligence Suite — analytics'], correct:0, exp:'SQL Server Integration Services. It\'s Microsoft\'s ETL (Extract, Transform, Load) platform for data migration, transformation, and integration workflows. Uses packages with Control Flow and Data Flow components.' },
+      { cat:'SQL Server', type:'tf', q:'A non-clustered index in SQL Server stores a copy of the indexed column(s) plus a pointer to the full row.', correct:0, exp:'True. A non-clustered index creates a separate structure with the index key values and a row locator (pointer to the actual data row in the clustered index or heap). Multiple non-clustered indexes per table are allowed.' },
+
+      // Git
+      { cat:'Git', type:'mc', q:'What does "git rebase -i HEAD~3" allow you to do?', opts:['Merge last 3 branches','Interactively edit the last 3 commits','Reset to 3 commits ago','Cherry-pick 3 commits'], correct:1, exp:'Interactive rebase lets you squash, reorder, edit, or drop the last 3 commits before pushing. Common use: squash work-in-progress commits into clean logical commits before a PR.' },
+      { cat:'Git', type:'tf', q:'You should run "git rebase" on commits that have already been pushed to a shared remote branch.', correct:1, exp:'False. Rebasing rewrites commit history (new SHA hashes). If others have based work on those commits, it creates diverging histories and forces destructive pushes. Only rebase local/unshared commits.' },
+      { cat:'Git', type:'mc', q:'In GitFlow, which branch is used for next-release development?', opts:['main','develop','staging','integration'], correct:1, exp:'The "develop" branch is the integration branch for features targeting the next release. Feature branches merge into develop; when ready for release, develop merges into a release/* branch, then into main.' },
+
+      // CI/CD
+      { cat:'CI/CD', type:'mc', q:'In Jenkins, what file defines a declarative pipeline?', opts:['jenkins.yml','Jenkinsfile','pipeline.json','build.xml'], correct:1, exp:'Jenkinsfile (no extension). Typically uses Declarative Pipeline syntax with stages block. Can also use Scripted Pipeline (Groovy). Stored in the repo root for pipeline-as-code.' },
+      { cat:'CI/CD', type:'tf', q:'Continuous Deployment means every commit that passes automated tests is automatically deployed to production without manual approval.', correct:0, exp:'True. Continuous Deployment is the fully automated path: commit → build → test → deploy to prod. Continuous Delivery stops before production and requires a manual approval gate.' },
+      { cat:'CI/CD', type:'mc', q:'What is the purpose of a Quality Gate in SonarQube?', opts:['Prevents code from compiling if syntax errors exist','Defines a set of conditions that code must meet to be considered acceptable','Limits the number of developers who can commit','Encrypts source code before deployment'], correct:1, exp:'A Quality Gate is a set of threshold conditions (e.g., coverage > 80%, no new blockers, duplication < 3%). If any condition fails, the pipeline is marked as failed — ensuring code quality standards are enforced on every build.' },
+      { cat:'CI/CD', type:'mc', q:'Which Azure DevOps module is most similar to Jira for agile project management?', opts:['Azure Repos','Azure Pipelines','Azure Boards','Azure Artifacts'], correct:2, exp:'Azure Boards provides work item tracking, Kanban boards, sprint planning, and backlogs — functionally similar to Jira. Azure Repos = Git hosting, Pipelines = CI/CD, Artifacts = package manager.' },
+
+      // Kubernetes
+      { cat:'Kubernetes', type:'mc', q:'What is the smallest deployable unit in Kubernetes?', opts:['Container','Pod','Node','Namespace'], correct:1, exp:'A Pod is the smallest deployable unit. It contains one or more containers that share network (same IP) and storage. Containers in a pod communicate via localhost.' },
+      { cat:'Kubernetes', type:'tf', q:'A Kubernetes ConfigMap is suitable for storing database passwords and API keys.', correct:1, exp:'False. ConfigMap stores non-sensitive configuration data (URLs, feature flags). Secrets are designed for sensitive data. However, Secrets are only base64-encoded by default — for real encryption use Sealed Secrets or HashiCorp Vault integration.' },
+      { cat:'Kubernetes', type:'mc', q:'Which Kubernetes object ensures one pod runs on every node in the cluster?', opts:['Deployment','ReplicaSet','DaemonSet','StatefulSet'], correct:2, exp:'DaemonSet ensures exactly one pod runs on every (or selected) node. Used for cluster-wide agents: log collectors (Fluentd), monitoring agents (Prometheus node-exporter), network plugins.' },
+      { cat:'Kubernetes', type:'mc', q:'What does a Kubernetes Service of type "ClusterIP" do?', opts:['Exposes the service on a port of each node','Creates an external load balancer','Exposes the service on an internal cluster IP only','Maps to a DNS name outside the cluster'], correct:2, exp:'ClusterIP is the default service type. It assigns a virtual IP only reachable within the cluster — used for internal pod-to-pod communication. NodePort exposes on each node\'s IP; LoadBalancer creates an external LB.' },
+
+      // SonarQube & Code Quality
+      { cat:'SonarQube', type:'tf', q:'SonarQube can detect security vulnerabilities in source code in addition to code smells and bugs.', correct:0, exp:'True. SonarQube categorizes findings as: Bugs (reliability), Vulnerabilities (security — OWASP/SANS mapped), Security Hotspots (needs review), and Code Smells (maintainability). It supports SAST (Static Application Security Testing).' },
+      { cat:'SonarQube', type:'mc', q:'What metric does SonarQube use to represent the estimated time to fix all code smells?', opts:['Technical Debt','Bug Density','Cyclomatic Complexity','Coverage Delta'], correct:0, exp:'Technical Debt (shown in days/hours) is SonarQube\'s estimate of the remediation effort for all code smells. It\'s based on configurable remediation cost per issue type and helps prioritize refactoring efforts.' },
+
+      // AI Tools
+      { cat:'AI Tools', type:'mc', q:'What is the primary risk of using AI-generated code without review in production?', opts:['It always runs slower','It may contain security vulnerabilities or logical errors','It violates all open-source licenses','AI cannot generate compilable code'], correct:1, exp:'AI-generated code can contain security vulnerabilities (SQL injection, insecure defaults), logic errors that compile but behave incorrectly, and outdated patterns. Always review, run SAST tools (SonarQube), and write tests for AI-generated code.' },
+      { cat:'AI Tools', type:'tf', q:'GitHub Copilot can generate unit test cases based on your existing source code.', correct:0, exp:'True. Copilot can generate unit tests by analyzing function signatures and implementation. You can prompt it via comments like "// write unit tests for this function" or use Copilot Chat to generate test suites.' },
+    ];
+
+    let examState = {
+      questions: [],
+      answers: {},   // index → selected option index
+      submitted: false,
+    };
+
+    function startExam() {
+      // Shuffle and pick 30
+      const shuffled = [...EXAM_BANK].sort(() => Math.random() - 0.5);
+      examState.questions = shuffled.slice(0, 30);
+      examState.answers = {};
+      examState.submitted = false;
+
+      document.getElementById('exam-start-screen').style.display = 'none';
+      document.getElementById('exam-results-screen').style.display = 'none';
+      document.getElementById('exam-review-screen').style.display = 'none';
+      document.getElementById('exam-in-progress').style.display = 'block';
+
+      renderExamQuestions();
+      updateExamProgress();
+    }
+
+    function renderExamQuestions() {
+      const container = document.getElementById('exam-questions-container');
+      container.innerHTML = examState.questions.map((q, i) => buildQuestionCard(q, i)).join('');
+    }
+
+    function buildQuestionCard(q, i) {
+      const isTF = q.type === 'tf';
+      const optionsHTML = isTF
+        ? `<div class="exam-tf">
+            ${buildOption(i, 0, 'True')}
+            ${buildOption(i, 1, 'False')}
+           </div>`
+        : `<div class="exam-options">
+            ${q.opts.map((o, oi) => buildOption(i, oi, o, String.fromCharCode(65+oi))).join('')}
+           </div>`;
+
+      return `
+        <div class="exam-q-card" id="eq-card-${i}">
+          <div class="exam-q-meta">
+            <span class="exam-q-num">#${i+1}</span>
+            <span class="exam-q-type">${isTF ? 'True / False' : 'Multiple Choice'}</span>
+            <span class="exam-q-cat">${q.cat}</span>
+          </div>
+          <div class="exam-q-text">${q.q}</div>
+          ${optionsHTML}
+          <div class="exam-explanation" id="eq-exp-${i}"><strong>Explanation:</strong> ${q.exp}</div>
+        </div>`;
+    }
+
+    function buildOption(qi, oi, label, key) {
+      const isTF = !key;
+      const keyLabel = isTF ? '' : `<span class="opt-key">${key}</span>`;
+      return `<div class="exam-option" id="eq-opt-${qi}-${oi}" onclick="selectOption(${qi},${oi})">
+        ${keyLabel}
+        <span class="opt-text">${label}</span>
+      </div>`;
+    }
+
+    function selectOption(qi, oi) {
+      if (examState.submitted) return;
+
+      // Deselect previous
+      const prev = examState.answers[qi];
+      if (prev !== undefined) {
+        document.getElementById(`eq-opt-${qi}-${prev}`)?.classList.remove('selected');
+      }
+
+      examState.answers[qi] = oi;
+      document.getElementById(`eq-opt-${qi}-${oi}`).classList.add('selected');
+      document.getElementById(`eq-card-${qi}`).classList.add('answered');
+
+      updateExamProgress();
+    }
+
+    function updateExamProgress() {
+      const total = examState.questions.length;
+      const answered = Object.keys(examState.answers).length;
+      const pct = Math.round((answered / total) * 100);
+
+      document.getElementById('exam-answered-count').textContent = `${answered} / ${total} answered`;
+      document.getElementById('exam-progress-num').textContent = `${pct}%`;
+      document.getElementById('exam-progress-fill').style.width = `${pct}%`;
+
+      const btn = document.getElementById('btn-submit-exam');
+      if (answered === total) {
+        btn.disabled = false;
+        btn.textContent = `Submit Exam (${total}/${total} answered)`;
+      } else {
+        btn.disabled = true;
+        btn.textContent = `Submit Exam (${answered}/${total} answered)`;
+      }
+    }
+
+    function submitExam() {
+      if (!confirm('Submit the exam? You won\'t be able to change your answers.')) return;
+      examState.submitted = true;
+
+      let correct = 0;
+      examState.questions.forEach((q, i) => {
+        if (examState.answers[i] === q.correct) correct++;
+      });
+
+      const total = examState.questions.length;
+      const wrong = total - correct;
+      const pct = Math.round((correct / total) * 100);
+
+      // Grade
+      let grade, sub;
+      if (pct >= 90)      { grade = '🏆 Excellent!';    sub = 'Outstanding performance. You\'re ready for the interview!'; }
+      else if (pct >= 75) { grade = '✅ Good Job!';     sub = 'Solid knowledge. Review the missed topics before the interview.'; }
+      else if (pct >= 60) { grade = '📚 Keep Studying'; sub = 'Some gaps to fill. Focus on the topics you missed.'; }
+      else                { grade = '🔁 Need More Prep';sub = 'Keep practicing — review the explanations carefully.'; }
+
+      document.getElementById('result-pct').textContent = `${pct}%`;
+      document.getElementById('result-grade').textContent = grade;
+      document.getElementById('result-sub').textContent = sub;
+      document.getElementById('result-correct').textContent = correct;
+      document.getElementById('result-wrong').textContent = wrong;
+      document.getElementById('result-skipped').textContent = 0;
+
+      showResults();
+    }
+
+    function showResults() {
+      document.getElementById('exam-in-progress').style.display = 'none';
+      document.getElementById('exam-review-screen').style.display = 'none';
+      document.getElementById('exam-results-screen').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showReview() {
+      const container = document.getElementById('exam-review-container');
+      container.innerHTML = examState.questions.map((q, i) => {
+        const userAns = examState.answers[i];
+        const isCorrect = userAns === q.correct;
+        const isTF = q.type === 'tf';
+        const optLabels = isTF ? ['True','False'] : q.opts;
+        const keyLabels = isTF ? ['T','F'] : optLabels.map((_,oi) => String.fromCharCode(65+oi));
+
+        const optionsHTML = optLabels.map((label, oi) => {
+          let cls = 'exam-option';
+          if (oi === q.correct) cls += ' correct-answer';
+          else if (oi === userAns && !isCorrect) cls += ' wrong-answer';
+          const key = isTF ? '' : `<span class="opt-key">${keyLabels[oi]}</span>`;
+          return `<div class="${cls}">${key}<span class="opt-text">${label}</span></div>`;
+        }).join('');
+
+        const wrapClass = isTF ? 'exam-tf' : 'exam-options';
+        const icon = isCorrect ? '✅' : '❌';
+
+        return `
+          <div class="exam-q-card answered">
+            <div class="exam-q-meta">
+              <span class="exam-q-num">${icon} #${i+1}</span>
+              <span class="exam-q-type">${isTF ? 'True / False' : 'Multiple Choice'}</span>
+              <span class="exam-q-cat">${q.cat}</span>
+            </div>
+            <div class="exam-q-text">${q.q}</div>
+            <div class="${wrapClass}">${optionsHTML}</div>
+            <div class="exam-explanation show"><strong>Explanation:</strong> ${q.exp}</div>
+          </div>`;
+      }).join('');
+
+      document.getElementById('exam-results-screen').style.display = 'none';
+      document.getElementById('exam-review-screen').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     // ─── PWA ─────────────────────────────────────────────────────────────────
