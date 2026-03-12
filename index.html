@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>KarotPrep — Interview Trainer</title>
+
+  <!-- PWA META TAGS -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#0f1f3d" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="KarotPrep" />
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180x180.png" />
+  <link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152x152.png" />
+  <link rel="apple-touch-icon" sizes="120x120" href="icons/icon-120x120.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="icons/icon-16x16.png" />
+  <meta name="msapplication-TileColor" content="#0f1f3d" />
+  <meta name="msapplication-TileImage" content="icons/icon-144x144.png" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── Variables ─────────────────────────────────────────────────────────── */
+    :root {
+      --primary:        #2563eb;
+      --primary-bright: #3b82f6;
+      --primary-glow:   rgba(37,99,235,0.25);
+      --primary-dim:    #1d4ed8;
+      --primary-deep:   #1e3a8a;
+
+      --accent:         #f59e0b;
+      --accent-dim:     #d97706;
+      --success:        #10b981;
+      --danger:         #ef4444;
+
+      --bg:             #0a0f1e;
+      --bg-card:        #0f1f3d;
+      --bg-panel:       #111827;
+      --bg-input:       #1a2744;
+      --bg-hover:       #1e3356;
+
+      --border:         rgba(37,99,235,0.2);
+      --border-primary: rgba(37,99,235,0.5);
+
+      --text:           #e2e8f0;
+      --text-dim:       #94a3b8;
+      --text-bright:    #f8fafc;
+
+      --radius:         12px;
+      --radius-sm:      8px;
+      --radius-lg:      16px;
+
+      --safe-top:    env(safe-area-inset-top,    0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --safe-left:   env(safe-area-inset-left,   0px);
+      --safe-right:  env(safe-area-inset-right,  0px);
+    }
+
+    /* ─── Reset & Base ──────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      padding-top: var(--safe-top);
+      padding-bottom: var(--safe-bottom);
+      padding-left: var(--safe-left);
+      padding-right: var(--safe-right);
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ─── Header ────────────────────────────────────────────────────────────── */
+    .header {
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-logo {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-bright));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .header-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-bright);
+      letter-spacing: -0.3px;
+    }
+
+    .header-subtitle {
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-top: 1px;
+    }
+
+    .header-badge {
+      margin-left: auto;
+      background: var(--primary-deep);
+      color: var(--primary-bright);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 20px;
+      border: 1px solid var(--border-primary);
+      letter-spacing: 0.3px;
+    }
+
+    /* ─── Main Layout ───────────────────────────────────────────────────────── */
+    .main {
+      flex: 1;
+      max-width: 860px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 24px 24px 80px;
+    }
+
+    /* ─── Score Bar ─────────────────────────────────────────────────────────── */
+    .score-bar {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .score-chip {
+      flex: 1;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px;
+      text-align: center;
+    }
+
+    .score-chip .val {
+      font-size: 26px;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--text-bright);
+    }
+
+    .score-chip .lbl {
+      font-size: 11px;
+      color: var(--text-dim);
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .score-chip.correct .val { color: var(--success); }
+    .score-chip.wrong .val   { color: var(--danger); }
+    .score-chip.pct .val     { color: var(--accent); }
+
+    /* ─── Category Filter ───────────────────────────────────────────────────── */
+    .section-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 10px;
+    }
+
+    .category-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .cat-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 8px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: inherit;
+    }
+
+    .cat-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary-bright);
+      background: var(--bg-hover);
+    }
+
+    .cat-btn.active {
+      background: var(--primary-deep);
+      border-color: var(--primary);
+      color: var(--text-bright);
+      font-weight: 600;
+    }
+
+    .diff-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .diff-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 7px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: inherit;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .diff-btn.active-easy   { background: rgba(16,185,129,0.15); border-color: var(--success); color: var(--success); }
+    .diff-btn.active-medium { background: rgba(245,158,11,0.15); border-color: var(--accent); color: var(--accent); }
+    .diff-btn.active-hard   { background: rgba(239,68,68,0.15); border-color: var(--danger); color: var(--danger); }
+
+    /* ─── Question Card ─────────────────────────────────────────────────────── */
+    .question-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      margin-bottom: 16px;
+      position: relative;
+      transition: border-color 0.2s;
+    }
+
+    .question-card.revealed { border-color: var(--border-primary); }
+
+    .q-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .q-category {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--primary-bright);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+
+    .q-dot { color: var(--border); }
+
+    .q-difficulty {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .q-difficulty.easy   { background: rgba(16,185,129,0.15); color: var(--success); }
+    .q-difficulty.medium { background: rgba(245,158,11,0.15); color: var(--accent); }
+    .q-difficulty.hard   { background: rgba(239,68,68,0.15); color: var(--danger); }
+
+    .q-number {
+      margin-left: auto;
+      font-size: 11px;
+      color: var(--text-dim);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .q-text {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-bright);
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    /* Answer area */
+    .answer-area {
+      overflow: hidden;
+      transition: max-height 0.35s ease, opacity 0.3s ease;
+      max-height: 0;
+      opacity: 0;
+    }
+
+    .answer-area.visible {
+      max-height: 800px;
+      opacity: 1;
+    }
+
+    .answer-divider {
+      height: 1px;
+      background: var(--border-primary);
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .answer-divider::before {
+      content: 'RESPUESTA';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--bg-card);
+      padding: 0 10px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--primary-bright);
+    }
+
+    .a-text {
+      font-size: 15px;
+      color: var(--text);
+      line-height: 1.75;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Inline code formatting */
+    .a-text code, code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      background: var(--bg-input);
+      color: var(--primary-bright);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* Self-assessment buttons */
+    .self-assess {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .assess-btn {
+      flex: 1;
+      padding: 12px;
+      border-radius: var(--radius-sm);
+      border: 1px solid;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s;
+    }
+
+    .assess-btn.got-it {
+      background: rgba(16,185,129,0.1);
+      border-color: var(--success);
+      color: var(--success);
+    }
+
+    .assess-btn.got-it:hover { background: rgba(16,185,129,0.2); }
+
+    .assess-btn.missed-it {
+      background: rgba(239,68,68,0.1);
+      border-color: var(--danger);
+      color: var(--danger);
+    }
+
+    .assess-btn.missed-it:hover { background: rgba(239,68,68,0.2); }
+
+    /* ─── Action Buttons ────────────────────────────────────────────────────── */
+    .action-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .btn-reveal {
+      flex: 2;
+      padding: 14px;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.15s;
+    }
+
+    .btn-reveal:hover { background: var(--primary-dim); }
+    .btn-reveal:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .btn-next {
+      flex: 1;
+      padding: 14px;
+      background: var(--bg-panel);
+      color: var(--text-dim);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s;
+    }
+
+    .btn-next:hover { border-color: var(--primary); color: var(--primary-bright); }
+
+    /* ─── Loading / Status ──────────────────────────────────────────────────── */
+    .loading-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .spinner {
+      width: 36px;
+      height: 36px;
+      border: 3px solid var(--border);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 16px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .loading-text {
+      color: var(--text-dim);
+      font-size: 14px;
+    }
+
+    .wake-note {
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-top: 8px;
+    }
+
+    /* ─── Progress / History ────────────────────────────────────────────────── */
+    .history-section {
+      margin-top: 8px;
+    }
+
+    .history-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .history-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .history-icon {
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .history-q {
+      font-size: 13px;
+      color: var(--text-dim);
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .history-cat {
+      font-size: 11px;
+      color: var(--primary-bright);
+      flex-shrink: 0;
+    }
+
+    /* ─── Empty state ───────────────────────────────────────────────────────── */
+    .empty-state {
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--text-dim);
+    }
+
+    .empty-icon { font-size: 48px; margin-bottom: 12px; }
+    .empty-text { font-size: 15px; }
+
+    /* ─── PWA Install ───────────────────────────────────────────────────────── */
+    #pwa-install-btn {
+      position: fixed;
+      bottom: calc(20px + var(--safe-bottom, 0px));
+      right: 20px;
+      z-index: 1000;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      padding: 12px 18px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      box-shadow: 0 4px 20px var(--primary-glow);
+    }
+
+    /* ─── Tabs ──────────────────────────────────────────────────────────────── */
+    .tabs {
+      display: flex;
+      gap: 4px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 4px;
+      margin-bottom: 24px;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 10px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-dim);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.15s;
+      border: none;
+      background: none;
+      font-family: inherit;
+    }
+
+    .tab.active {
+      background: var(--primary-deep);
+      color: var(--text-bright);
+    }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ─── Tips panel ────────────────────────────────────────────────────────── */
+    .tips-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+
+    .tips-card h3 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-bright);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tips-card ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .tips-card li {
+      font-size: 14px;
+      color: var(--text-dim);
+      padding-left: 20px;
+      position: relative;
+      line-height: 1.6;
+    }
+
+    .tips-card li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--primary-bright);
+    }
+
+    /* ─── Responsive ────────────────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .main { padding: 16px 16px 80px; }
+      .q-text { font-size: 16px; }
+      .question-card { padding: 20px; }
+      .score-bar { gap: 8px; }
+    }
+
+    @media (max-width: 480px) {
+      .main { padding: 12px 12px 72px; }
+      .score-chip .val { font-size: 22px; }
+      .action-row { flex-direction: column; }
+      .btn-next { flex: none; }
+      .header { padding: 12px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-logo">🎯</div>
+    <div>
+      <div class="header-title">KarotPrep</div>
+      <div class="header-subtitle">Interview Trainer</div>
+    </div>
+    <div class="header-badge" id="q-counter">0 preguntas</div>
+  </header>
+
+  <main class="main">
+
+    <!-- Score bar -->
+    <div class="score-bar">
+      <div class="score-chip correct">
+        <div class="val" id="score-correct">0</div>
+        <div class="lbl">✅ Correctas</div>
+      </div>
+      <div class="score-chip wrong">
+        <div class="val" id="score-wrong">0</div>
+        <div class="lbl">❌ Revisar</div>
+      </div>
+      <div class="score-chip pct">
+        <div class="val" id="score-pct">—</div>
+        <div class="lbl">⚡ Score</div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('practice')">🎯 Práctica</button>
+      <button class="tab" onclick="switchTab('history')">📋 Historial</button>
+      <button class="tab" onclick="switchTab('tips')">💡 Tips</button>
+    </div>
+
+    <!-- ── TAB: PRACTICE ── -->
+    <div class="tab-panel active" id="tab-practice">
+
+      <!-- Category filter -->
+      <div class="section-title">Categoría</div>
+      <div class="category-grid" id="category-grid">
+        <button class="cat-btn active" data-cat="all" onclick="selectCategory('all')">Todas</button>
+      </div>
+
+      <!-- Difficulty filter -->
+      <div class="section-title">Dificultad</div>
+      <div class="diff-row">
+        <button class="diff-btn active-easy" data-diff="easy" onclick="selectDiff('easy')">Fácil</button>
+        <button class="diff-btn active-medium" data-diff="medium" onclick="selectDiff('medium')">Media</button>
+        <button class="diff-btn active-hard" data-diff="hard" onclick="selectDiff('hard')">Difícil</button>
+        <button class="diff-btn" data-diff="all" onclick="selectDiff('all')" style="flex:0.8">Todas</button>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="action-row">
+        <button class="btn-reveal" id="btn-reveal" onclick="revealAnswer()">👁 Ver respuesta</button>
+        <button class="btn-next" onclick="loadQuestion()">→ Siguiente</button>
+      </div>
+
+      <!-- Loading -->
+      <div class="loading-card" id="loading-card">
+        <div class="spinner"></div>
+        <div class="loading-text">Cargando pregunta...</div>
+        <div class="wake-note">Si es la primera petición, el servidor puede tardar ~30s en despertar</div>
+      </div>
+
+      <!-- Question card -->
+      <div class="question-card" id="question-card" style="display:none">
+        <div class="q-meta">
+          <span class="q-category" id="q-cat-label">—</span>
+          <span class="q-dot">·</span>
+          <span class="q-difficulty" id="q-diff-label">—</span>
+          <span class="q-number" id="q-num">#1</span>
+        </div>
+        <div class="q-text" id="q-text">—</div>
+
+        <div class="answer-area" id="answer-area">
+          <div class="answer-divider"></div>
+          <div class="a-text" id="a-text">—</div>
+          <div class="self-assess">
+            <button class="assess-btn got-it" onclick="assess(true)">✅ Lo tenía claro</button>
+            <button class="assess-btn missed-it" onclick="assess(false)">❌ Necesito repasar</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── TAB: HISTORY ── -->
+    <div class="tab-panel" id="tab-history">
+      <div class="history-section">
+        <div class="history-list" id="history-list">
+          <div class="empty-state">
+            <div class="empty-icon">📭</div>
+            <div class="empty-text">Tu historial aparecerá aquí conforme practiques</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TAB: TIPS ── -->
+    <div class="tab-panel" id="tab-tips">
+
+      <div class="tips-card">
+        <h3>🎯 Cómo usar KarotPrep</h3>
+        <ul>
+          <li>Lee la pregunta en voz alta, como si la entrevistador estuviera frente a ti.</li>
+          <li>Intenta responder sin ver la respuesta — estructura tu pensamiento primero.</li>
+          <li>Revela la respuesta y compara con lo que dijiste.</li>
+          <li>Marca honestamente si lo tenías claro o no.</li>
+          <li>Filtra por categoría y dificultad para enfocarte en las áreas débiles.</li>
+        </ul>
+      </div>
+
+      <div class="tips-card">
+        <h3>💼 Temas priorizados en Karot</h3>
+        <ul>
+          <li><strong>Java & C#:</strong> OOP, concurrencia, patrones de diseño, memory management.</li>
+          <li><strong>.NET:</strong> Middleware pipeline, DI, Entity Framework, async/await.</li>
+          <li><strong>SQL Server / T-SQL:</strong> Índices, transacciones, CTEs, SPs, SSIS para ETL.</li>
+          <li><strong>CI/CD:</strong> Jenkins pipeline, SonarQube Quality Gate, Azure DevOps.</li>
+          <li><strong>Kubernetes:</strong> Pods, Deployments, Services, ConfigMaps, Secrets.</li>
+          <li><strong>Git:</strong> Merge vs rebase, GitFlow, resolución de conflictos.</li>
+          <li><strong>AI Tools:</strong> GitHub Copilot en flujo de trabajo, riesgos y mitigaciones.</li>
+        </ul>
+      </div>
+
+      <div class="tips-card">
+        <h3>🧠 Framework STAR para respuestas</h3>
+        <ul>
+          <li><strong>Situación:</strong> contexto del problema técnico que enfrentaste.</li>
+          <li><strong>Tarea:</strong> qué tenías que resolver o implementar.</li>
+          <li><strong>Acción:</strong> las decisiones técnicas que tomaste y por qué.</li>
+          <li><strong>Resultado:</strong> qué mejoró (performance, mantenibilidad, seguridad).</li>
+        </ul>
+      </div>
+
+      <div class="tips-card">
+        <h3>🔑 Keywords para mencionar en Karot</h3>
+        <ul>
+          <li>Microservicios, API REST, integración continua, infraestructura como código.</li>
+          <li>Código limpio, SOLID, patrones GoF (Factory, Strategy, Observer).</li>
+          <li>Observabilidad, logging estructurado, health checks, SLAs.</li>
+          <li>Seguridad: OWASP, SQL injection, input validation, secretos en Vault/KeyVault.</li>
+          <li>AI-assisted: Copilot para boilerplate, test generation, code review augmentation.</li>
+        </ul>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- PWA install button -->
+  <button id="pwa-install-btn" hidden onclick="pwaInstall()">📲 Instalar app</button>
+
+  <script>
+    // ─── Config ───────────────────────────────────────────────────────────────
+    const API_URL = 'https://karotprep-app.onrender.com';
+
+    // ─── State ────────────────────────────────────────────────────────────────
+    let state = {
+      currentQ: null,
+      totalAsked: 0,
+      correct: 0,
+      wrong: 0,
+      selectedCategory: 'all',
+      selectedDiff: 'all',
+      history: [],
+      revealed: false,
+    };
+
+    const CATEGORY_NAMES = {
+      java: 'Java', csharp: 'C# / .NET', dotnet: '.NET Core',
+      sql: 'SQL Server', git: 'Git', cicd: 'CI/CD',
+      sonarqube: 'SonarQube', ai_tools: 'AI Tools', kubernetes: 'Kubernetes',
+    };
+
+    // ─── Init ─────────────────────────────────────────────────────────────────
+    window.addEventListener('DOMContentLoaded', async () => {
+      await loadCategories();
+      await loadQuestion();
+    });
+
+    async function loadCategories() {
+      try {
+        const res = await fetch(`${API_URL}/categories`);
+        const data = await res.json();
+        const grid = document.getElementById('category-grid');
+        data.categories.forEach(cat => {
+          const btn = document.createElement('button');
+          btn.className = 'cat-btn';
+          btn.dataset.cat = cat.id;
+          btn.textContent = `${cat.name} (${cat.count})`;
+          btn.onclick = () => selectCategory(cat.id);
+          grid.appendChild(btn);
+        });
+        document.getElementById('q-counter').textContent =
+          `${data.categories.reduce((a, c) => a + c.count, 0)} preguntas`;
+      } catch(e) {
+        console.warn('Could not load categories', e);
+      }
+    }
+
+    async function loadQuestion() {
+      showLoading(true);
+      state.revealed = false;
+
+      const btn = document.getElementById('btn-reveal');
+      btn.disabled = false;
+      btn.textContent = '👁 Ver respuesta';
+
+      try {
+        let url = `${API_URL}/question`;
+        const params = new URLSearchParams();
+        if (state.selectedCategory !== 'all') params.set('category', state.selectedCategory);
+        if (state.selectedDiff !== 'all') params.set('difficulty', state.selectedDiff);
+        if ([...params].length) url += '?' + params.toString();
+
+        const res = await fetch(url);
+        const q = await res.json();
+
+        if (q.error) {
+          showError('No hay preguntas para ese filtro. Intenta otro.');
+          return;
+        }
+
+        state.currentQ = q;
+        state.totalAsked++;
+        renderQuestion(q);
+        showLoading(false);
+      } catch(e) {
+        showError('Error conectando con el servidor. Reintentando...');
+        setTimeout(loadQuestion, 3000);
+      }
+    }
+
+    function renderQuestion(q) {
+      document.getElementById('q-cat-label').textContent =
+        CATEGORY_NAMES[q.category] || q.category || '—';
+      
+      const diffEl = document.getElementById('q-diff-label');
+      diffEl.textContent = q.difficulty || '—';
+      diffEl.className = `q-difficulty ${q.difficulty || ''}`;
+
+      document.getElementById('q-num').textContent = `#${state.totalAsked}`;
+      document.getElementById('q-text').textContent = q.q;
+
+      // Format answer with inline code
+      const aEl = document.getElementById('a-text');
+      aEl.innerHTML = formatAnswer(q.a);
+
+      // Hide answer
+      document.getElementById('answer-area').classList.remove('visible');
+      document.getElementById('question-card').classList.remove('revealed');
+      document.getElementById('question-card').style.display = 'block';
+    }
+
+    function formatAnswer(text) {
+      // Wrap backtick text as inline code
+      return text.replace(/`([^`]+)`/g, '<code>$1</code>');
+    }
+
+    function revealAnswer() {
+      if (state.revealed) return;
+      state.revealed = true;
+      document.getElementById('answer-area').classList.add('visible');
+      document.getElementById('question-card').classList.add('revealed');
+      const btn = document.getElementById('btn-reveal');
+      btn.disabled = true;
+      btn.textContent = '✓ Respuesta visible';
+    }
+
+    function assess(correct) {
+      if (!state.currentQ) return;
+
+      if (correct) state.correct++; else state.wrong++;
+      
+      // History
+      state.history.unshift({
+        q: state.currentQ.q,
+        category: CATEGORY_NAMES[state.currentQ.category] || state.currentQ.category,
+        result: correct,
+      });
+      if (state.history.length > 30) state.history.pop();
+
+      updateScore();
+      renderHistory();
+      loadQuestion();
+    }
+
+    function updateScore() {
+      document.getElementById('score-correct').textContent = state.correct;
+      document.getElementById('score-wrong').textContent = state.wrong;
+      const total = state.correct + state.wrong;
+      const pct = total > 0 ? Math.round((state.correct / total) * 100) : 0;
+      document.getElementById('score-pct').textContent = total > 0 ? `${pct}%` : '—';
+    }
+
+    function renderHistory() {
+      const list = document.getElementById('history-list');
+      if (state.history.length === 0) return;
+      list.innerHTML = state.history.map(h => `
+        <div class="history-item">
+          <span class="history-icon">${h.result ? '✅' : '❌'}</span>
+          <span class="history-q" title="${h.q}">${h.q}</span>
+          <span class="history-cat">${h.category}</span>
+        </div>
+      `).join('');
+    }
+
+    // ─── Filters ──────────────────────────────────────────────────────────────
+    function selectCategory(cat) {
+      state.selectedCategory = cat;
+      document.querySelectorAll('.cat-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.cat === cat);
+      });
+      loadQuestion();
+    }
+
+    function selectDiff(diff) {
+      state.selectedDiff = diff;
+      document.querySelectorAll('.diff-btn').forEach(b => {
+        b.classList.remove('active-easy', 'active-medium', 'active-hard');
+        if (b.dataset.diff === diff) {
+          if (diff === 'easy') b.classList.add('active-easy');
+          else if (diff === 'medium') b.classList.add('active-medium');
+          else if (diff === 'hard') b.classList.add('active-hard');
+          else b.style.borderColor = 'var(--primary)';
+        } else {
+          b.style.borderColor = '';
+        }
+      });
+      loadQuestion();
+    }
+
+    // ─── UI Helpers ───────────────────────────────────────────────────────────
+    function showLoading(show) {
+      document.getElementById('loading-card').style.display = show ? 'block' : 'none';
+      document.getElementById('question-card').style.display = show ? 'none' : 'block';
+    }
+
+    function showError(msg) {
+      const card = document.getElementById('loading-card');
+      card.innerHTML = `<div style="color:var(--danger);font-weight:600">${msg}</div>`;
+      card.style.display = 'block';
+      document.getElementById('question-card').style.display = 'none';
+    }
+
+    function switchTab(tab) {
+      document.querySelectorAll('.tab').forEach((t, i) => {
+        t.classList.toggle('active', ['practice','history','tips'][i] === tab);
+      });
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      document.getElementById(`tab-${tab}`).classList.add('active');
+      if (tab === 'history') renderHistory();
+    }
+
+    // ─── PWA ─────────────────────────────────────────────────────────────────
+    let deferredPrompt = null;
+    window.addEventListener('beforeinstallprompt', e => {
+      e.preventDefault();
+      deferredPrompt = e;
+      document.getElementById('pwa-install-btn').hidden = false;
+    });
+
+    async function pwaInstall() {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') document.getElementById('pwa-install-btn').hidden = true;
+      deferredPrompt = null;
+    }
+
+    // ─── Service Worker ───────────────────────────────────────────────────────
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(console.warn);
+    }
+  </script>
+</body>
+</html>
