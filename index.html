@@ -790,13 +790,13 @@
     <div class="tab-panel" id="tab-exam">
       <!-- Start screen -->
       <div id="exam-start-screen" class="exam-start">
-        <div class="exam-start-icon">📝</div>
-        <h2>Karot Mock Exam</h2>
-        <p>Test your technical knowledge across all topics.<br>30 questions — multiple choice &amp; true/false — timed review at the end.</p>
+        <div class="exam-start-icon">🔷</div>
+        <h2>.NET Core Mock Exam</h2>
+        <p>30 questions covering DI, Middleware, async/await, EF Core, Web API, C# language features, testing, patterns, and more.</p>
         <div class="exam-start-info">
           <div class="exam-info-chip"><strong>30</strong>Questions</div>
           <div class="exam-info-chip"><strong>Mix</strong>A/B/C/D + T/F</div>
-          <div class="exam-info-chip"><strong>EN</strong>English</div>
+          <div class="exam-info-chip"><strong>.NET</strong>Core Focus</div>
         </div>
         <button class="btn-start-exam" onclick="startExam()">Start Exam →</button>
       </div>
@@ -805,7 +805,7 @@
       <div id="exam-in-progress" style="display:none">
         <div class="exam-header">
           <div>
-            <div class="exam-title">Karot Mock Exam</div>
+            <div class="exam-title">.NET Core Mock Exam</div>
             <div class="exam-sub" id="exam-answered-count">0 / 30 answered</div>
           </div>
           <div class="exam-progress-wrap">
@@ -1126,51 +1126,306 @@
     // ─── EXAM ────────────────────────────────────────────────────────────────
 
     const EXAM_BANK = [
-      // Java
-      { cat:'Java', type:'mc', q:'Which Java collection provides O(1) average-case get/put operations?', opts:['LinkedList','ArrayList','HashMap','TreeMap'], correct:2, exp:'HashMap uses hashing for O(1) average get/put. TreeMap is O(log n) (sorted). ArrayList is O(n) for search, O(1) for index access.' },
-      { cat:'Java', type:'tf', q:'In Java, a static method can be overridden by a subclass.', correct:1, exp:'False. Static methods are resolved at compile time (static binding), not runtime. Subclasses can hide (not override) a static method, but polymorphism does not apply.' },
-      { cat:'Java', type:'mc', q:'What does the "volatile" keyword guarantee in Java?', opts:['Atomicity of compound operations','Visibility of changes across threads','Mutual exclusion','Thread-local storage'], correct:1, exp:'volatile guarantees visibility: writes are immediately visible to all threads. It does NOT guarantee atomicity for compound operations like i++ — use AtomicInteger or synchronized for that.' },
-      { cat:'Java', type:'mc', q:'Which design pattern is used by Java\'s InputStream / OutputStream hierarchy?', opts:['Factory','Singleton','Decorator','Observer'], correct:2, exp:'The Decorator pattern. BufferedInputStream wraps FileInputStream adding buffering. This allows stacking behaviors (e.g., GZIPInputStream → BufferedInputStream → FileInputStream) without subclassing.' },
-      { cat:'Java', type:'tf', q:'ArrayList is thread-safe by default in Java.', correct:1, exp:'False. ArrayList is not thread-safe. Use Collections.synchronizedList() or CopyOnWriteArrayList for thread-safe access.' },
 
-      // C# / .NET
-      { cat:'C# / .NET', type:'mc', q:'In C#, what is the difference between "==" and "Equals()" for strings?', opts:['No difference','== compares references; Equals compares content','== compares content; Equals compares references','== is faster, Equals is slower'], correct:1, exp:'For strings, C# overloads == to compare content (value equality), same as Equals(). However, for custom objects, == compares references unless overloaded. Equals() can be overridden for value comparison.' },
-      { cat:'C# / .NET', type:'tf', q:'In .NET, a struct can implement an interface.', correct:0, exp:'True. Structs in C# can implement interfaces. However, boxing occurs when a struct is used as an interface reference, which can affect performance.' },
-      { cat:'C# / .NET', type:'mc', q:'What does "yield return" do in a C# method?', opts:['Exits the method immediately','Returns all items as a list','Creates a lazy iterator using state machine','Throws an exception'], correct:2, exp:'yield return creates a lazy iterator. The compiler generates a state machine that pauses execution at each yield and resumes on next MoveNext() call. This enables memory-efficient enumeration of large sequences.' },
-      { cat:'C# / .NET', type:'mc', q:'Which lifetime should you use for Entity Framework\'s DbContext in ASP.NET Core?', opts:['Singleton','Transient','Scoped','Static'], correct:2, exp:'Scoped. DbContext should live for one HTTP request (one unit of work). Singleton would cause thread-safety issues and stale data. Transient would create a new DbContext per service resolution, losing transaction context.' },
-      { cat:'C# / .NET', type:'tf', q:'Task.Run() is recommended for I/O-bound operations in .NET.', correct:1, exp:'False. Task.Run() wraps work in a ThreadPool thread, best for CPU-bound work. For I/O-bound operations, use async/await with truly asynchronous APIs (HttpClient, FileStream async methods) to avoid blocking threads.' },
+      // ── Dependency Injection & Middleware ────────────────────────────────────
+      { cat:'Dependency Injection', type:'mc',
+        q:'Which service lifetime in ASP.NET Core creates a new instance for every HTTP request and shares it within that request?',
+        opts:['Singleton','Transient','Scoped','Per-thread'],
+        correct:2,
+        exp:'Scoped creates one instance per HTTP request scope and reuses it within that scope. Singleton = one for the app lifetime. Transient = new instance every time it is resolved, even within the same request.' },
 
-      // SQL Server
-      { cat:'SQL Server', type:'mc', q:'What is the default isolation level in SQL Server?', opts:['READ UNCOMMITTED','READ COMMITTED','REPEATABLE READ','SERIALIZABLE'], correct:1, exp:'READ COMMITTED is the default. It prevents dirty reads (reading uncommitted data) but allows non-repeatable reads and phantom reads. Use SNAPSHOT isolation for better read concurrency without blocking.' },
-      { cat:'SQL Server', type:'tf', q:'A clustered index determines the physical order of data rows in a SQL Server table.', correct:0, exp:'True. A clustered index sorts and stores the data rows in the table based on the key values. Only one clustered index per table is allowed. By default, the primary key creates a clustered index.' },
-      { cat:'SQL Server', type:'mc', q:'Which T-SQL clause is used to filter results AFTER a GROUP BY aggregation?', opts:['WHERE','FILTER','HAVING','QUALIFY'], correct:2, exp:'HAVING filters groups after GROUP BY. WHERE filters rows before grouping. Example: SELECT dept, COUNT(*) FROM emp GROUP BY dept HAVING COUNT(*) > 5.' },
-      { cat:'SQL Server', type:'mc', q:'What does SSIS stand for and what is its primary use?', opts:['SQL Server Integration Services — ETL tool','SQL Server Index Service — index optimizer','SQL Server Instance Sync — replication','SQL Server Intelligence Suite — analytics'], correct:0, exp:'SQL Server Integration Services. It\'s Microsoft\'s ETL (Extract, Transform, Load) platform for data migration, transformation, and integration workflows. Uses packages with Control Flow and Data Flow components.' },
-      { cat:'SQL Server', type:'tf', q:'A non-clustered index in SQL Server stores a copy of the indexed column(s) plus a pointer to the full row.', correct:0, exp:'True. A non-clustered index creates a separate structure with the index key values and a row locator (pointer to the actual data row in the clustered index or heap). Multiple non-clustered indexes per table are allowed.' },
+      { cat:'Dependency Injection', type:'tf',
+        q:'In ASP.NET Core, injecting a Scoped service into a Singleton service causes a runtime exception by default.',
+        correct:0,
+        exp:'True. This is called "captive dependency." The Singleton lives longer than the Scoped service, so the framework throws an InvalidOperationException at startup unless scope validation is disabled. Enable it deliberately only with full understanding of the risk.' },
 
-      // Git
-      { cat:'Git', type:'mc', q:'What does "git rebase -i HEAD~3" allow you to do?', opts:['Merge last 3 branches','Interactively edit the last 3 commits','Reset to 3 commits ago','Cherry-pick 3 commits'], correct:1, exp:'Interactive rebase lets you squash, reorder, edit, or drop the last 3 commits before pushing. Common use: squash work-in-progress commits into clean logical commits before a PR.' },
-      { cat:'Git', type:'tf', q:'You should run "git rebase" on commits that have already been pushed to a shared remote branch.', correct:1, exp:'False. Rebasing rewrites commit history (new SHA hashes). If others have based work on those commits, it creates diverging histories and forces destructive pushes. Only rebase local/unshared commits.' },
-      { cat:'Git', type:'mc', q:'In GitFlow, which branch is used for next-release development?', opts:['main','develop','staging','integration'], correct:1, exp:'The "develop" branch is the integration branch for features targeting the next release. Feature branches merge into develop; when ready for release, develop merges into a release/* branch, then into main.' },
+      { cat:'Dependency Injection', type:'mc',
+        q:'What is the correct way to register a service so that every resolution returns a NEW instance?',
+        opts:['services.AddSingleton<IMyService, MyService>()','services.AddScoped<IMyService, MyService>()','services.AddTransient<IMyService, MyService>()','services.AddHosted<IMyService, MyService>()'],
+        correct:2,
+        exp:'AddTransient registers the service as Transient: a fresh instance is created every time IMyService is resolved from the container, regardless of the consuming service\'s lifetime.' },
 
-      // CI/CD
-      { cat:'CI/CD', type:'mc', q:'In Jenkins, what file defines a declarative pipeline?', opts:['jenkins.yml','Jenkinsfile','pipeline.json','build.xml'], correct:1, exp:'Jenkinsfile (no extension). Typically uses Declarative Pipeline syntax with stages block. Can also use Scripted Pipeline (Groovy). Stored in the repo root for pipeline-as-code.' },
-      { cat:'CI/CD', type:'tf', q:'Continuous Deployment means every commit that passes automated tests is automatically deployed to production without manual approval.', correct:0, exp:'True. Continuous Deployment is the fully automated path: commit → build → test → deploy to prod. Continuous Delivery stops before production and requires a manual approval gate.' },
-      { cat:'CI/CD', type:'mc', q:'What is the purpose of a Quality Gate in SonarQube?', opts:['Prevents code from compiling if syntax errors exist','Defines a set of conditions that code must meet to be considered acceptable','Limits the number of developers who can commit','Encrypts source code before deployment'], correct:1, exp:'A Quality Gate is a set of threshold conditions (e.g., coverage > 80%, no new blockers, duplication < 3%). If any condition fails, the pipeline is marked as failed — ensuring code quality standards are enforced on every build.' },
-      { cat:'CI/CD', type:'mc', q:'Which Azure DevOps module is most similar to Jira for agile project management?', opts:['Azure Repos','Azure Pipelines','Azure Boards','Azure Artifacts'], correct:2, exp:'Azure Boards provides work item tracking, Kanban boards, sprint planning, and backlogs — functionally similar to Jira. Azure Repos = Git hosting, Pipelines = CI/CD, Artifacts = package manager.' },
+      { cat:'Middleware', type:'mc',
+        q:'In an ASP.NET Core middleware pipeline, what happens if a middleware component does NOT call "await next(context)"?',
+        opts:['An exception is thrown automatically','The pipeline short-circuits — subsequent middleware is skipped','The request is logged and forwarded anyway','The response is always 500'],
+        correct:1,
+        exp:'Not calling next() short-circuits the pipeline. All middleware registered AFTER it will be skipped. This is intentional for terminal middleware like authentication that rejects requests early (e.g., returning 401).' },
 
-      // Kubernetes
-      { cat:'Kubernetes', type:'mc', q:'What is the smallest deployable unit in Kubernetes?', opts:['Container','Pod','Node','Namespace'], correct:1, exp:'A Pod is the smallest deployable unit. It contains one or more containers that share network (same IP) and storage. Containers in a pod communicate via localhost.' },
-      { cat:'Kubernetes', type:'tf', q:'A Kubernetes ConfigMap is suitable for storing database passwords and API keys.', correct:1, exp:'False. ConfigMap stores non-sensitive configuration data (URLs, feature flags). Secrets are designed for sensitive data. However, Secrets are only base64-encoded by default — for real encryption use Sealed Secrets or HashiCorp Vault integration.' },
-      { cat:'Kubernetes', type:'mc', q:'Which Kubernetes object ensures one pod runs on every node in the cluster?', opts:['Deployment','ReplicaSet','DaemonSet','StatefulSet'], correct:2, exp:'DaemonSet ensures exactly one pod runs on every (or selected) node. Used for cluster-wide agents: log collectors (Fluentd), monitoring agents (Prometheus node-exporter), network plugins.' },
-      { cat:'Kubernetes', type:'mc', q:'What does a Kubernetes Service of type "ClusterIP" do?', opts:['Exposes the service on a port of each node','Creates an external load balancer','Exposes the service on an internal cluster IP only','Maps to a DNS name outside the cluster'], correct:2, exp:'ClusterIP is the default service type. It assigns a virtual IP only reachable within the cluster — used for internal pod-to-pod communication. NodePort exposes on each node\'s IP; LoadBalancer creates an external LB.' },
+      { cat:'Middleware', type:'mc',
+        q:'Which of the following is the CORRECT order for middleware registration in a typical ASP.NET Core app?',
+        opts:[
+          'UseRouting → UseAuthentication → UseAuthorization → UseEndpoints',
+          'UseAuthentication → UseRouting → UseEndpoints → UseAuthorization',
+          'UseEndpoints → UseRouting → UseAuthentication → UseAuthorization',
+          'UseAuthorization → UseAuthentication → UseRouting → UseEndpoints'
+        ],
+        correct:0,
+        exp:'Order matters: UseRouting must come before UseAuthentication and UseAuthorization so that the route is known when auth runs. UseEndpoints (or MapControllers in .NET 6+) must come last to dispatch the request.' },
 
-      // SonarQube & Code Quality
-      { cat:'SonarQube', type:'tf', q:'SonarQube can detect security vulnerabilities in source code in addition to code smells and bugs.', correct:0, exp:'True. SonarQube categorizes findings as: Bugs (reliability), Vulnerabilities (security — OWASP/SANS mapped), Security Hotspots (needs review), and Code Smells (maintainability). It supports SAST (Static Application Security Testing).' },
-      { cat:'SonarQube', type:'mc', q:'What metric does SonarQube use to represent the estimated time to fix all code smells?', opts:['Technical Debt','Bug Density','Cyclomatic Complexity','Coverage Delta'], correct:0, exp:'Technical Debt (shown in days/hours) is SonarQube\'s estimate of the remediation effort for all code smells. It\'s based on configurable remediation cost per issue type and helps prioritize refactoring efforts.' },
+      // ── async / await & Task ─────────────────────────────────────────────────
+      { cat:'async / await', type:'mc',
+        q:'What is the return type of an async method that returns no value?',
+        opts:['void','Task','Task<void>','ValueTask<void>'],
+        correct:1,
+        exp:'async methods that return no value should return Task (not void). async void is reserved for event handlers — it cannot be awaited and unhandled exceptions will crash the process.' },
 
-      // AI Tools
-      { cat:'AI Tools', type:'mc', q:'What is the primary risk of using AI-generated code without review in production?', opts:['It always runs slower','It may contain security vulnerabilities or logical errors','It violates all open-source licenses','AI cannot generate compilable code'], correct:1, exp:'AI-generated code can contain security vulnerabilities (SQL injection, insecure defaults), logic errors that compile but behave incorrectly, and outdated patterns. Always review, run SAST tools (SonarQube), and write tests for AI-generated code.' },
-      { cat:'AI Tools', type:'tf', q:'GitHub Copilot can generate unit test cases based on your existing source code.', correct:0, exp:'True. Copilot can generate unit tests by analyzing function signatures and implementation. You can prompt it via comments like "// write unit tests for this function" or use Copilot Chat to generate test suites.' },
+      { cat:'async / await', type:'tf',
+        q:'"await Task.Run(() => HeavyComputation())" is the correct approach for offloading CPU-bound work in an ASP.NET Core controller.',
+        correct:0,
+        exp:'True for CPU-bound work specifically. Task.Run pushes the work to the ThreadPool, freeing the request thread. However, this is rarely beneficial in ASP.NET Core because the ThreadPool is shared — prefer using true async I/O APIs where possible.' },
+
+      { cat:'async / await', type:'mc',
+        q:'What does "ConfigureAwait(false)" do in an async method?',
+        opts:[
+          'Forces the continuation to run on the UI thread',
+          'Cancels the task if the caller\'s context is lost',
+          'Tells the continuation not to capture the synchronization context',
+          'Disables exception propagation'
+        ],
+        correct:2,
+        exp:'ConfigureAwait(false) instructs the continuation to NOT marshal back to the original synchronization context. In library code this avoids deadlocks and improves performance. In ASP.NET Core there is no SynchronizationContext, but it\'s still a best practice in libraries.' },
+
+      { cat:'async / await', type:'tf',
+        q:'Calling ".Result" or ".Wait()" on a Task in ASP.NET Core can cause a deadlock.',
+        correct:0,
+        exp:'True — in contexts with a SynchronizationContext (WinForms, WPF, old ASP.NET). In ASP.NET Core there is no SynchronizationContext, so deadlocks from this pattern don\'t occur, but blocking still wastes thread resources and should be avoided.' },
+
+      // ── Entity Framework Core ────────────────────────────────────────────────
+      { cat:'Entity Framework Core', type:'mc',
+        q:'In EF Core, what is the difference between "eager loading" and "lazy loading"?',
+        opts:[
+          'Eager loads only on demand; lazy loads everything upfront',
+          'Eager loading uses Include() to load related data in the same query; lazy loading loads related data automatically when the navigation property is accessed',
+          'They are identical in EF Core',
+          'Eager loading uses separate queries; lazy loading uses a single JOIN'
+        ],
+        correct:1,
+        exp:'Eager loading: use .Include(x => x.Orders) — EF Core adds a JOIN or second query immediately. Lazy loading: navigation properties are virtual and EF Core proxies trigger a DB query on first access. Lazy loading can cause N+1 query problems if not managed carefully.' },
+
+      { cat:'Entity Framework Core', type:'tf',
+        q:'In EF Core, calling "SaveChangesAsync()" persists ALL tracked entity changes within the DbContext in a single transaction.',
+        correct:0,
+        exp:'True. EF Core wraps all pending changes (inserts, updates, deletes) into a single database transaction by default. If any operation fails, the entire transaction is rolled back.' },
+
+      { cat:'Entity Framework Core', type:'mc',
+        q:'Which EF Core method executes a raw SQL query and returns tracked entities?',
+        opts:['Database.ExecuteSqlRawAsync()','Set<T>().FromSqlRaw()','Query<T>().ToSqlQuery()','DbContext.RunQuery()'],
+        correct:1,
+        exp:'FromSqlRaw() (or FromSqlInterpolated for safe interpolation) executes a raw SQL SELECT and returns tracked entities. Database.ExecuteSqlRawAsync() is for non-query commands (INSERT/UPDATE/DELETE) and returns the rows affected count.' },
+
+      { cat:'Entity Framework Core', type:'mc',
+        q:'What EF Core feature allows you to evolve the database schema incrementally without dropping and recreating the database?',
+        opts:['Database.EnsureCreated()','Code-First Migrations','Scaffold-DbContext','Database Seed'],
+        correct:1,
+        exp:'Code-First Migrations (dotnet ef migrations add / dotnet ef database update) generate incremental SQL scripts to apply schema changes. EnsureCreated() only creates the DB if it doesn\'t exist — it does not apply migrations.' },
+
+      // ── C# Language Features ─────────────────────────────────────────────────
+      { cat:'C# Language', type:'mc',
+        q:'What is the output of: "int? x = null; Console.WriteLine(x ?? 42);"?',
+        opts:['null','0','42','Compiler error'],
+        correct:2,
+        exp:'The null-coalescing operator (??) returns the left operand if it is not null, otherwise the right. Since x is null, 42 is returned and printed.' },
+
+      { cat:'C# Language', type:'tf',
+        q:'In C#, records are reference types that provide value-based equality by default.',
+        correct:0,
+        exp:'True. Record classes (record keyword) are reference types, but the compiler auto-generates Equals(), GetHashCode(), and == based on property values rather than reference identity. Record structs are value types with the same behavior.' },
+
+      { cat:'C# Language', type:'mc',
+        q:'What does the "sealed" keyword on a class prevent?',
+        opts:['The class from being instantiated','The class from being inherited','The class from implementing interfaces','The class from using static members'],
+        correct:1,
+        exp:'sealed prevents other classes from inheriting from it. The CLR can optimize method calls on sealed classes (devirtualization). Common use: prevent unintended extension of security-sensitive or performance-critical classes.' },
+
+      { cat:'C# Language', type:'mc',
+        q:'Which LINQ method returns the first element matching a condition, or throws if none is found?',
+        opts:['FirstOrDefault()','SingleOrDefault()','First()','Find()'],
+        correct:2,
+        exp:'First() returns the first matching element and throws InvalidOperationException if none match. FirstOrDefault() returns the default value (null for reference types) instead of throwing. Single() additionally throws if MORE than one element matches.' },
+
+      { cat:'C# Language', type:'tf',
+        q:'"IEnumerable<T>" executes its query immediately when assigned.',
+        correct:1,
+        exp:'False. IEnumerable<T> (and IQueryable<T>) use deferred execution — the query is not executed until the sequence is enumerated (e.g., with foreach, ToList(), Count()). This allows query composition without hitting the database multiple times.' },
+
+      { cat:'C# Language', type:'mc',
+        q:'What is the purpose of the "using" declaration in C# 8+? (e.g., "using var conn = new SqlConnection(cs);")',
+        opts:[
+          'Imports a namespace',
+          'Disposes the resource at the end of the enclosing scope without a separate block',
+          'Locks the resource for thread safety',
+          'Prevents garbage collection'
+        ],
+        correct:1,
+        exp:'The C# 8 "using declaration" (without braces) automatically calls Dispose() when the variable goes out of the enclosing scope (e.g., end of method). It\'s syntactic sugar over the try/finally pattern, equivalent to the traditional using block but less nested.' },
+
+      // ── ASP.NET Core Web API ─────────────────────────────────────────────────
+      { cat:'ASP.NET Core Web API', type:'mc',
+        q:'Which attribute in ASP.NET Core automatically returns HTTP 400 if model validation fails?',
+        opts:['[Authorize]','[ApiController]','[ValidateModel]','[Route]'],
+        correct:1,
+        exp:'[ApiController] enables several opinionated behaviors: automatic 400 response on model validation failure (no need to check ModelState manually), binding source inference, and problem details responses. It requires attribute routing.' },
+
+      { cat:'ASP.NET Core Web API', type:'tf',
+        q:'In ASP.NET Core, "IActionResult" and "ActionResult<T>" serve the same purpose and can be used interchangeably.',
+        correct:1,
+        exp:'False. ActionResult<T> is preferred in Web API because it allows both typed results (for serialization) and IActionResult returns (for status codes like NotFound()). Swagger/OpenAPI can also infer the response schema from ActionResult<T> but not from IActionResult alone.' },
+
+      { cat:'ASP.NET Core Web API', type:'mc',
+        q:'What is the correct HTTP status code to return when a POST request successfully creates a resource?',
+        opts:['200 OK','201 Created','202 Accepted','204 No Content'],
+        correct:1,
+        exp:'201 Created is the correct status for a successful resource creation. Best practice: also include a Location header pointing to the new resource URI (use CreatedAtAction() in ASP.NET Core). 200 is for successful GET/PUT. 204 is for successful operations with no response body.' },
+
+      { cat:'ASP.NET Core Web API', type:'mc',
+        q:'Which approach is recommended for reading configuration values in ASP.NET Core using strongly-typed classes?',
+        opts:['ConfigurationManager.AppSettings','IConfiguration.GetValue<string>()','The Options pattern with IOptions<T>','Environment.GetEnvironmentVariable()'],
+        correct:2,
+        exp:'The Options pattern (IOptions<T>, IOptionsSnapshot<T>, IOptionsMonitor<T>) binds configuration sections to strongly-typed classes, supports validation, and integrates with DI. IOptionsSnapshot refreshes per-request; IOptionsMonitor supports real-time change notifications.' },
+
+      { cat:'ASP.NET Core Web API', type:'tf',
+        q:'Minimal APIs in .NET 6+ cannot use middleware, filters, or dependency injection.',
+        correct:1,
+        exp:'False. Minimal APIs fully support DI (inject services as parameters), middleware (app.Use...), and route groups. What they lack compared to controllers are action filters and some MVC-specific features. They are production-ready for most API scenarios.' },
+
+      // ── Security ─────────────────────────────────────────────────────────────
+      { cat:'Security', type:'mc',
+        q:'In ASP.NET Core, what is the difference between Authentication and Authorization?',
+        opts:[
+          'They are the same thing',
+          'Authentication verifies WHO you are; Authorization determines WHAT you can do',
+          'Authorization verifies identity; Authentication controls access',
+          'Authentication is for APIs; Authorization is for MVC only'
+        ],
+        correct:1,
+        exp:'Authentication establishes identity (who are you? — via JWT, cookies, API keys). Authorization determines permissions (what can you do? — via roles, policies, claims). UseAuthentication() must run before UseAuthorization() in the middleware pipeline.' },
+
+      { cat:'Security', type:'tf',
+        q:'Storing JWTs in localStorage is more secure than storing them in HttpOnly cookies.',
+        correct:1,
+        exp:'False. localStorage is accessible to JavaScript, making it vulnerable to XSS attacks. HttpOnly cookies cannot be accessed by JavaScript, protecting the token from XSS. However, cookies require CSRF protection. The recommended approach depends on the threat model.' },
+
+      { cat:'Security', type:'mc',
+        q:'Which .NET Core feature prevents SQL injection when using raw SQL in EF Core?',
+        opts:[
+          'FromSqlRaw() with string concatenation',
+          'FromSqlInterpolated() which uses parameterized queries automatically',
+          'Database.ExecuteSqlRaw() with NOLOCK hint',
+          'Disabling LINQ translation'
+        ],
+        correct:1,
+        exp:'FromSqlInterpolated() treats interpolated values as SQL parameters, preventing injection. FromSqlRaw() with string concatenation is VULNERABLE — never concatenate user input into raw SQL. Always use parameterized queries or LINQ-generated queries.' },
+
+      // ── Testing ──────────────────────────────────────────────────────────────
+      { cat:'Unit Testing', type:'mc',
+        q:'In xUnit, which attribute marks a parameterized test method?',
+        opts:['[Fact]','[Theory]','[TestCase]','[DataDriven]'],
+        correct:1,
+        exp:'[Theory] marks a parameterized test. Data is provided via [InlineData], [MemberData], or [ClassData]. [Fact] marks a single non-parameterized test. [TestCase] belongs to NUnit, not xUnit.' },
+
+      { cat:'Unit Testing', type:'tf',
+        q:'When unit testing an ASP.NET Core controller, you should use the real DbContext connected to a test database.',
+        correct:1,
+        exp:'False. Unit tests should be isolated and fast — use mocking (Moq, NSubstitute) or the EF Core InMemory provider to avoid real DB dependencies. Tests using a real database are integration tests and belong in a separate test project.' },
+
+      { cat:'Unit Testing', type:'mc',
+        q:'What is the purpose of "WebApplicationFactory<T>" in ASP.NET Core testing?',
+        opts:[
+          'Generates Swagger docs for the API',
+          'Creates an in-memory test server for integration testing without running a real HTTP server',
+          'Mocks all registered services automatically',
+          'Provides a Docker container for the app'
+        ],
+        correct:1,
+        exp:'WebApplicationFactory<TEntryPoint> bootstraps the full application in-memory (including middleware, DI, routing) and provides an HttpClient to call endpoints. It is the recommended approach for integration testing in ASP.NET Core.' },
+
+      // ── Performance & Caching ────────────────────────────────────────────────
+      { cat:'Performance', type:'mc',
+        q:'Which .NET type should you prefer over "string" for building strings in a loop to avoid excessive memory allocations?',
+        opts:['StringWriter','StringHelper','StringBuilder','CharArray'],
+        correct:2,
+        exp:'StringBuilder uses a mutable buffer and avoids creating a new string object on each concatenation. String concatenation in a loop creates O(n²) string objects. For very high-performance scenarios, also consider Span<char> or string.Create().' },
+
+      { cat:'Performance', type:'tf',
+        q:'IMemoryCache in ASP.NET Core is distributed across multiple server instances by default.',
+        correct:1,
+        exp:'False. IMemoryCache is in-process (per-server) memory cache. For distributed caching across multiple instances, use IDistributedCache with a backing store like Redis (AddStackExchangeRedisCache) or SQL Server.' },
+
+      { cat:'Performance', type:'mc',
+        q:'What is the benefit of using "IAsyncEnumerable<T>" in an ASP.NET Core API endpoint?',
+        opts:[
+          'It enables parallel processing of items',
+          'It streams results to the client incrementally without buffering the full collection in memory',
+          'It automatically paginates the response',
+          'It converts synchronous code to async'
+        ],
+        correct:1,
+        exp:'IAsyncEnumerable<T> (with "await foreach") allows streaming: items are produced and sent to the client as they become available without loading the entire dataset into memory. ASP.NET Core 6+ natively supports returning IAsyncEnumerable from action methods.' },
+
+      // ── Configuration & Hosting ──────────────────────────────────────────────
+      { cat:'Configuration & Hosting', type:'mc',
+        q:'In .NET 6+, where is the application\'s entry point and service registration typically configured?',
+        opts:['Startup.cs','Program.cs with WebApplication.CreateBuilder()','App.config','Global.asax'],
+        correct:1,
+        exp:'.NET 6+ uses the Minimal Hosting Model in Program.cs. WebApplication.CreateBuilder() sets up the host, IServiceCollection for DI, and the middleware pipeline. Startup.cs was the pattern in .NET Core 1–5 and is still supported but no longer the default.' },
+
+      { cat:'Configuration & Hosting', type:'tf',
+        q:'Environment variables override values in appsettings.json in the default ASP.NET Core configuration system.',
+        correct:0,
+        exp:'True. The default configuration provider order is: appsettings.json → appsettings.{Environment}.json → Environment Variables → Command-line arguments. Later providers override earlier ones, so environment variables take precedence over appsettings.json. This is critical for secrets in production.' },
+
+      { cat:'Configuration & Hosting', type:'mc',
+        q:'Which interface should you implement to run background work in an ASP.NET Core application?',
+        opts:['IMiddleware','IHostedService / BackgroundService','IActionFilter','IApplicationLifetime'],
+        correct:1,
+        exp:'IHostedService (or its base class BackgroundService) allows long-running background tasks managed by the host. BackgroundService provides the abstract ExecuteAsync(CancellationToken) method. The service starts with the app and stops gracefully on shutdown.' },
+
+      // ── Patterns & Architecture ──────────────────────────────────────────────
+      { cat:'Patterns & Architecture', type:'mc',
+        q:'What problem does the Repository pattern solve in a .NET Core application?',
+        opts:[
+          'Caching database queries automatically',
+          'Abstracting data access logic so that the domain layer does not depend on a specific data technology',
+          'Generating SQL from C# classes',
+          'Encrypting data before persistence'
+        ],
+        correct:1,
+        exp:'The Repository pattern wraps data access behind an interface, decoupling domain/application logic from ORM or database specifics. This makes unit testing easier (you can mock the repository) and allows swapping the data store without changing business logic.' },
+
+      { cat:'Patterns & Architecture', type:'tf',
+        q:'In CQRS, Commands and Queries are handled by the same service/handler.',
+        correct:1,
+        exp:'False. CQRS (Command Query Responsibility Segregation) explicitly separates read operations (Queries) from write operations (Commands). Each has its own model and handler. MediatR is commonly used in .NET Core to dispatch commands and queries to their respective handlers.' },
+
+      { cat:'Patterns & Architecture', type:'mc',
+        q:'Which .NET Core library is most commonly used to implement the Mediator pattern (CQRS / decoupled request handling)?',
+        opts:['AutoMapper','Polly','MediatR','Serilog'],
+        correct:2,
+        exp:'MediatR implements the Mediator pattern. You define requests (IRequest<T>) and handlers (IRequestHandler<TRequest, TResponse>). The mediator dispatches requests to handlers, decoupling senders from receivers. Polly = resilience. AutoMapper = object mapping. Serilog = structured logging.' },
+
+      { cat:'Patterns & Architecture', type:'mc',
+        q:'What is the main advantage of using "Polly" in a .NET Core application?',
+        opts:[
+          'Automatic database migration',
+          'Resilience and transient-fault handling (retry, circuit breaker, timeout, fallback)',
+          'Dependency injection container',
+          'API versioning'
+        ],
+        correct:1,
+        exp:'Polly is a resilience library for .NET. It allows defining policies like Retry (with exponential backoff), Circuit Breaker (stop calling a failing service), Timeout, Bulkhead, and Fallback. It integrates with IHttpClientFactory in ASP.NET Core for resilient HTTP calls.' },
+
+      // ── Logging & Observability ───────────────────────────────────────────────
+      { cat:'Logging', type:'mc',
+        q:'Which logging abstraction is built into ASP.NET Core and allows swapping providers (Console, Serilog, NLog, etc.)?',
+        opts:['log4net','ILogger<T>','TraceSource','EventLog'],
+        correct:1,
+        exp:'ILogger<T> is the built-in logging abstraction in Microsoft.Extensions.Logging. You inject it via DI and log at different levels (Debug, Information, Warning, Error, Critical). Providers (Console, Debug, Serilog, Application Insights) are registered in Program.cs and can be swapped without changing application code.' },
+
+      { cat:'Logging', type:'tf',
+        q:'Structured logging (e.g., with Serilog) stores log entries as key-value pairs, making them queryable in tools like Elasticsearch or Seq.',
+        correct:0,
+        exp:'True. Structured logging preserves context as properties (not just a flat string). Example: Log.Information("Order {OrderId} placed by {UserId}", orderId, userId) creates searchable fields. Tools like Seq, Elasticsearch/Kibana, and Application Insights can filter and aggregate on these fields.' },
+
     ];
 
     let examState = {
